@@ -109,63 +109,62 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           body: LayoutBuilder(builder: (context, constraints) {
-            return Column(
-              children: [
-                if (showSearchBar)
-                  Container(
-                    height: constraints.maxHeight * 0.1,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: TextField(
-                      controller: _searchTextController,
-                      onChanged: (query) {
-                        bloc.add(FilterPokemons(query));
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(16, 14, 16, 14),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF999999),
-                            width: 1.5,
+            return Container(
+              height: constraints.maxHeight,
+              child: Column(
+                children: [
+                  if (showSearchBar)
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: TextField(
+                        controller: _searchTextController,
+                        onChanged: (query) {
+                          bloc.add(FilterPokemons(query));
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF999999),
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF999999),
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF999999),
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          suffixIconColor: Theme.of(context).accentColor,
+                          isDense: true,
+                          hintText: 'Search',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              bloc.add(FilterPokemons(''));
+                              _searchTextController.clear();
+                            },
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ), // Replace with your hint text
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF999999),
-                            width: 1.5,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF999999),
-                            width: 1.5,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suffixIconColor: Theme.of(context).accentColor,
-                        isDense: true,
-                        hintText: 'Search',
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            bloc.add(FilterPokemons(''));
-                            _searchTextController.clear();
-                          },
-                          icon: Icon(
-                            Icons.cancel,
-                            color: Theme.of(context).accentColor,
-                          ),
-                        ), // Replace with your hint text
                       ),
                     ),
+                  Expanded(
+                    child: PokemonGridView(),
                   ),
-                Container(
-                  child: PokemonGridView(),
-                  height: showSearchBar
-                      ? constraints.maxHeight * 0.9
-                      : constraints.maxHeight,
-                ),
-              ],
+                ],
+              ),
             );
           }), // Display grid view of Pokemon cards
         ),
